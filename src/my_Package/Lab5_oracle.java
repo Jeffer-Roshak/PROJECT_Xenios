@@ -4,7 +4,7 @@ import java.sql.*;
 import java.io.*;
 //HELLO THERE! test
 public class Lab5_oracle {
-	public static void main(String[] args) throws Exception{
+	/*public static void main(String[] args) throws Exception{
 		
 		//Variables
 		String username="";
@@ -124,5 +124,5 @@ public class Lab5_oracle {
 			ch = System.in.read();
 		}	
 		return buffer.toString().trim();
-	}
+	}*/
 }
