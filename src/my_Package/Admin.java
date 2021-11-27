@@ -121,7 +121,7 @@ public class Admin extends JFrame {
 			query = "SELECT * FROM Rooms_v1";
 			myResult = myStatement.executeQuery(query);
 			while(myResult.next()) {
-				model.addRow(new Object[]{myResult.getInt(1), myResult.getInt(2), myResult.getInt(3), myResult.getInt(4), myResult.getInt(5), "Edit", "Delete"});
+				model.addRow(new Object[]{myResult.getInt(1), myResult.getFloat(2), myResult.getString(3), myResult.getString(4), myResult.getString(5), "Edit", "Delete"});
 			}
 			} catch (Exception ex){
 				ex.printStackTrace();

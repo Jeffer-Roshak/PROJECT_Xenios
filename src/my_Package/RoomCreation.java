@@ -9,21 +9,27 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.awt.event.ActionEvent;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 public class RoomCreation extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField roomNumber;
-	private JTextField price;
-	private JTextField luxury;
-	private JTextField balcony;
-	private JTextField outlook;
-
+	private JTextField roomNumber_tf;
+	private JTextField price_tf;
+	Statement myStatement = null;
+	String query;
+	ResultSet myResult;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -72,30 +78,32 @@ public class RoomCreation extends JFrame {
 		lblOutlook.setBounds(10, 212, 46, 14);
 		contentPane.add(lblOutlook);
 		
-		roomNumber = new JTextField();
-		roomNumber.setBounds(220, 33, 86, 20);
-		contentPane.add(roomNumber);
-		roomNumber.setColumns(10);
+		roomNumber_tf = new JTextField();
+		roomNumber_tf.setBounds(220, 33, 86, 20);
+		contentPane.add(roomNumber_tf);
+		roomNumber_tf.setColumns(10);
 		
-		price = new JTextField();
-		price.setColumns(10);
-		price.setBounds(220, 77, 86, 20);
-		contentPane.add(price);
+		price_tf = new JTextField();
+		price_tf.setColumns(10);
+		price_tf.setBounds(220, 77, 86, 20);
+		contentPane.add(price_tf);
 		
-		luxury = new JTextField();
-		luxury.setColumns(10);
-		luxury.setBounds(220, 119, 86, 20);
-		contentPane.add(luxury);
+		JComboBox luxury_cb = new JComboBox();
+		luxury_cb.setEditable(true);
+		luxury_cb.setModel(new DefaultComboBoxModel(new String[] {"Single", "Double", "Suite"}));
+		luxury_cb.setBounds(220, 119, 86, 21);
+		contentPane.add(luxury_cb);
 		
-		balcony = new JTextField();
-		balcony.setColumns(10);
-		balcony.setBounds(220, 165, 86, 20);
-		contentPane.add(balcony);
+		JComboBox balcony_cb = new JComboBox();
+		balcony_cb.setModel(new DefaultComboBoxModel(new String[] {"Y", "N"}));
+		balcony_cb.setBounds(220, 165, 86, 21);
+		contentPane.add(balcony_cb);
 		
-		outlook = new JTextField();
-		outlook.setColumns(10);
-		outlook.setBounds(220, 209, 86, 20);
-		contentPane.add(outlook);
+		JComboBox outlook_cb = new JComboBox();
+		outlook_cb.setModel(new DefaultComboBoxModel(new String[] {"Beach", "Garden", "Pool"}));
+		outlook_cb.setEditable(true);
+		outlook_cb.setBounds(220, 209, 86, 21);
+		contentPane.add(outlook_cb);
 		
 		JButton add = new JButton("Submit");
 		add.addActionListener(new ActionListener() {
@@ -107,12 +115,35 @@ public class RoomCreation extends JFrame {
 					//If any field is empty
 					System.out.println("password or username is empty");
 				}*/
-				if(roomNumber.getText().equals("")||price.getText().equals("")||luxury.getText().equals("")||balcony.getText().equals("")||outlook.getText().equals("")) {
+				if(roomNumber_tf.getText().equals("")||price_tf.getText().equals("")||luxury_cb.getSelectedItem().equals("")||outlook_cb.getSelectedItem().equals("")) {
+					JOptionPane.showMessageDialog(null, "Ensure all fields are filled", "Create Room: Fields Empty", JOptionPane.INFORMATION_MESSAGE);
 					System.out.println("Ensure all fields are filled!");
 				}
 				else {
-					//Run the query here
-					
+					//Perform field checks here
+					//Check if room number already exists in the DB
+					try {
+						myStatement = conn.createStatement();
+						//Run query to check if the roomnumber already exist in the DB
+						query = "SELECT * FROM rooms_v1 WHERE room_number = '"+roomNumber_tf.getText()+"'";
+						myResult = myStatement.executeQuery(query);
+						//If it exists, print error message
+						//Else, generate hash and run query to insert new user
+						if(!myResult.isBeforeFirst()) {
+					            query = "INSERT INTO rooms_v1 VALUES ( "+roomNumber_tf.getText()+","+price_tf.getText()+",'"+luxury_cb.getSelectedItem()+"','"+balcony_cb.getSelectedItem()+"','"+outlook_cb.getSelectedItem()+"')";
+					            myStatement.executeQuery(query);
+					            JOptionPane.showMessageDialog(null, "Room created successfully", "Create Room: Successful", JOptionPane.INFORMATION_MESSAGE);
+					            roomNumber_tf.setText("");
+					            price_tf.setText("");
+					            luxury_cb.setSelectedItem("");
+					            outlook_cb.setSelectedItem("");
+							}
+						else {
+							JOptionPane.showMessageDialog(null, "Room number already exists", "Create Room: Invalid username", JOptionPane.ERROR_MESSAGE);
+						}
+					} catch (Exception ex) {
+						ex.printStackTrace();
+					}
 				}
 			}
 		});
@@ -141,6 +172,7 @@ public class RoomCreation extends JFrame {
 		});
 		btnNewButton.setBounds(273, 6, 153, 21);
 		contentPane.add(btnNewButton);
+		
 	}
 	
 	public void close() {

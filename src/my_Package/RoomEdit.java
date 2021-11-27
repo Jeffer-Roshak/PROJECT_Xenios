@@ -9,20 +9,24 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 public class RoomEdit extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField roomNumber_1;
 	private JTextField price;
-	private JTextField luxury;
-	private JTextField balcony;
-	private JTextField outlook;
+	
+	Statement myStatement = null;
+	String query;
+	ResultSet myResult;
 
 	/**
 	 * Launch the application.
@@ -85,29 +89,53 @@ public class RoomEdit extends JFrame {
 		price.setBounds(220, 77, 86, 20);
 		contentPane.add(price);
 		
-		luxury = new JTextField();
-		luxury.setColumns(10);
-		luxury.setBounds(220, 119, 86, 20);
-		contentPane.add(luxury);
+		JComboBox luxury_cb = new JComboBox();
+		luxury_cb.setModel(new DefaultComboBoxModel(new String[] {"Single", "Double", "Suite"}));
+		luxury_cb.setEditable(true);
+		luxury_cb.setBounds(220, 119, 86, 21);
+		contentPane.add(luxury_cb);
 		
-		balcony = new JTextField();
-		balcony.setColumns(10);
-		balcony.setBounds(220, 165, 86, 20);
-		contentPane.add(balcony);
+		JComboBox balcony_cb = new JComboBox();
+		balcony_cb.setModel(new DefaultComboBoxModel(new String[] {"Y", "N"}));
+		balcony_cb.setBounds(220, 165, 86, 21);
+		contentPane.add(balcony_cb);
 		
-		outlook = new JTextField();
-		outlook.setColumns(10);
-		outlook.setBounds(220, 209, 86, 20);
-		contentPane.add(outlook);
+		JComboBox outlook_cb = new JComboBox();
+		outlook_cb.setModel(new DefaultComboBoxModel(new String[] {"Beach", "Garden", "Pool"}));
+		outlook_cb.setEditable(true);
+		outlook_cb.setBounds(220, 209, 86, 21);
+		contentPane.add(outlook_cb);
+		
+		try {
+			myStatement = conn.createStatement();
+			query = "SELECT * FROM Rooms_v1 WHERE Room_number="+roomNumber;
+			myResult = myStatement.executeQuery(query);
+			myResult.next();
+			price.setText(Float.toString(myResult.getFloat(2)));
+			luxury_cb.setSelectedItem(myResult.getString(3));
+			balcony_cb.setSelectedItem(myResult.getString(4));
+			outlook_cb.setSelectedItem(myResult.getString(5));
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 		
 		JButton add = new JButton("Submit");
 		add.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(roomNumber.equals("")||price.getText().equals("")||luxury.getText().equals("")||balcony.getText().equals("")||outlook.getText().equals("")) {
+				if(price.getText().equals("")||luxury_cb.getSelectedItem().equals("")||outlook_cb.getSelectedItem().equals("")) {
+					JOptionPane.showMessageDialog(null, "Ensure all fields are filled", "Edit Room: Fields Empty", JOptionPane.INFORMATION_MESSAGE);
 					System.out.println("Ensure all fields are filled!");
 				}
 				else {
-					//Run the query here
+					//Perform field checks here
+					//Check if room number already exists in the DB
+					try {
+						query = "UPDATE rooms_v1 SET price="+price.getText()+", Luxury_label='"+luxury_cb.getSelectedItem()+"', balcony='"+balcony_cb.getSelectedItem()+"', outlook='"+outlook_cb.getSelectedItem()+"' WHERE Room_Number="+roomNumber+"";
+			            myStatement.executeQuery(query);
+			            JOptionPane.showMessageDialog(null, "Room edited successfully", "Edit Room: Successful", JOptionPane.INFORMATION_MESSAGE);
+					} catch (Exception ex) {
+						ex.printStackTrace();
+					}
 					
 				}
 			}
@@ -138,6 +166,8 @@ public class RoomEdit extends JFrame {
 		JLabel lblUsername = new JLabel("Logged in as "+username);
 		lblUsername.setBounds(10, 243, 178, 13);
 		contentPane.add(lblUsername);
+		
+		
 	}
 	
 	public void close() {
