@@ -1,7 +1,9 @@
 package my_Package;
 
+import java.sql.*;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -9,6 +11,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.ActionEvent;
+import com.github.lgooddatepicker.components.DateTimePicker;
 
 public class RoomBooking extends JFrame {
 
@@ -21,7 +27,7 @@ public class RoomBooking extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					RoomBooking frame = new RoomBooking();
+					RoomBooking frame = new RoomBooking(null, "TestCustomer","123");
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -33,9 +39,9 @@ public class RoomBooking extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public RoomBooking() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 628, 576);
+	public RoomBooking(Connection conn, String username, String roomNumber) {
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 797, 576);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -67,14 +73,41 @@ public class RoomBooking extends JFrame {
 		contentPane.add(lblOutlook);
 		
 		JButton btnNewButton = new JButton("Submit");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//Verify dates from LGoodDatepicker
+				//Run query to see if the room has a booking after system time and see if the timing conflicts with the chosen time.
+				
+				//Close the window once the change is made.
+				close();
+		        Customer frame = new Customer(conn, username);
+		        frame.setVisible(true);
+			}
+		});
 		btnNewButton.setBounds(295, 307, 85, 21);
 		contentPane.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("Cancel");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				close();
+		        Customer frame = new Customer(conn, username);
+		        frame.setVisible(true);
+		        //Ensure all reserved status is changed
+			}
+		});
 		btnNewButton_1.setBounds(123, 307, 85, 21);
 		contentPane.add(btnNewButton_1);
 		
 		JButton btnNewButton_2 = new JButton("Back to Main Page");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				close();
+		        Customer frame = new Customer(conn, username);
+		        frame.setVisible(true);
+		        //Ensure all reserved status is changed
+			}
+		});
 		btnNewButton_2.setBounds(105, 10, 147, 21);
 		contentPane.add(btnNewButton_2);
 		
@@ -98,5 +131,26 @@ public class RoomBooking extends JFrame {
 		JLabel dlbPrice = new JLabel("TestPrice");
 		dlbPrice.setBounds(160, 180, 100, 15);
 		contentPane.add(dlbPrice);
+		
+		JLabel lblNewLabel = new JLabel("Check-In Time");
+		lblNewLabel.setBounds(52, 220, 85, 13);
+		contentPane.add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("Check-Out Time");
+		lblNewLabel_1.setBounds(428, 220, 85, 13);
+		contentPane.add(lblNewLabel_1);
+		
+		DateTimePicker dateTimePicker = new DateTimePicker();
+		dateTimePicker.setBounds(52, 258, 271, 23);
+		contentPane.add(dateTimePicker);
+		
+		DateTimePicker dateTimePicker_1 = new DateTimePicker();
+		dateTimePicker_1.setBounds(428, 258, 248, 23);
+		contentPane.add(dateTimePicker_1);
+	}
+	
+	public void close() {
+		WindowEvent closeWindow = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
+		Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(closeWindow);
 	}
 }

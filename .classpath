@@ -6,6 +6,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="C:/Users/jeffe/Documents/University/Fall 2021/ECCE 434 B - Database Systems Lab/Lab 4/ojdbc/ojdbc7.jar"/>
+	<classpathentry kind="lib" path="lib/LGoodDatePicker-11.2.1.jar"/>
+	<classpathentry kind="lib" path="lib/ojdbc7.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

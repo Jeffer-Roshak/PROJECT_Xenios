@@ -1,5 +1,6 @@
 package my_Package;
 
+import java.sql.*;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
@@ -8,6 +9,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import java.awt.List;
+import java.awt.Toolkit;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JTable;
@@ -17,6 +22,8 @@ import java.awt.Dimension;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.table.TableModel;
 import java.awt.FlowLayout;
@@ -35,7 +42,7 @@ public class BookingsManagement extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					BookingsManagement frame = new BookingsManagement();
+					BookingsManagement frame = new BookingsManagement(null, "TestCustomer");
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -48,9 +55,9 @@ public class BookingsManagement extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public BookingsManagement() {
+	public BookingsManagement(Connection conn, String username) {
 		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 563, 318);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
@@ -61,7 +68,7 @@ public class BookingsManagement extends JFrame {
 		JScrollPane scrollPane = new JScrollPane();
 		contentPane.add(scrollPane);
 		String[] columns={
-				"Booking ID", "Customer Name", "Room Number", "Check In Time", "Check Out Time","Status"
+				"Booking ID", "Customer Name", "Room Number", "Check In Time", "Check Out Time","Cancel"
 			};
 		DefaultTableModel model = new DefaultTableModel();
 	    model.setColumnIdentifiers(columns);
@@ -72,14 +79,31 @@ public class BookingsManagement extends JFrame {
 				
 			},
 			new String[] {
-					"Booking ID", "Customer Name", "Room Number", "Check In Time", "Check Out Time","Status"
+					"Booking ID", "Customer Name", "Room Number", "Check In Time", "Check Out Time", "Cancel"
 			}
 		));
 		for(int i =0;i<100;i++) {
 			model = (DefaultTableModel) table.getModel();
-			model.addRow(new Object[]{i, "2", "3","4","5","6"});
+			model.addRow(new Object[]{i, "2", "3","4","5","Cancel"});
 		}
 		table.setModel(model);
+		
+		//Book Button
+	    Action cancel = new AbstractAction()
+	    {
+	        public void actionPerformed(ActionEvent e)
+	        {
+	            JTable table = (JTable)e.getSource();
+	            int modelRow = Integer.valueOf( e.getActionCommand() );
+	            String value = table.getModel().getValueAt(modelRow, 0).toString();
+	            System.out.println("Room Number: "+value);
+	            //Cancel the booking
+	            //Remove the booking from the table
+	        }
+	    };
+	    ButtonColumn buttonColumn = new ButtonColumn(table, cancel, 5);
+	    buttonColumn.setMnemonic(KeyEvent.VK_D);
+	    
 		table.setBackground(Color.LIGHT_GRAY);
 		table.setForeground(Color.black);
 		table.setPreferredScrollableViewportSize(new Dimension(500, 200));
@@ -90,13 +114,24 @@ public class BookingsManagement extends JFrame {
 		JButton logOut = new JButton("Log Out");
 		contentPane.add(logOut);
 		
-		JButton cancel = new JButton("Cancel Booking");
-		cancel.addActionListener(new ActionListener() {
+		JButton cancelButton = new JButton("Cancel Booking");
+		cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Cancel:"+selectedNum);
 			}
 		});
-		contentPane.add(cancel);
+		contentPane.add(cancelButton);
+		
+		JButton btnNewButton_2 = new JButton("Back to Main Page");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				close();
+		        Customer frame = new Customer(conn, username);
+		        frame.setVisible(true);
+		        //Ensure all reserved status is changed
+			}
+		});
+		contentPane.add(btnNewButton_2);
 		
 		
 		
@@ -111,6 +146,10 @@ public class BookingsManagement extends JFrame {
 		    }
 		});
 	
+	}
 	
+	public void close() {
+		WindowEvent closeWindow = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
+		Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(closeWindow);
 	}
 }
