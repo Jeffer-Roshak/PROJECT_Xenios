@@ -27,6 +27,9 @@ public class Customer extends JFrame {
 	private JButton btnNewButton;
 	private JButton logoutButton;
 	private JLabel lblUsername;
+	Statement myStatement = null;
+	String query;
+	ResultSet myResult;
 
 	/**
 	 * Launch the application.
@@ -80,29 +83,46 @@ public class Customer extends JFrame {
 				new String[] {
 					"Number", "Price", "Luxury Level", "Balcony", "Outlook", "Book"
 				}
-			));
-			for(int i =0;i<100;i++) {
-				model = (DefaultTableModel) table.getModel();
-				model.addRow(new Object[]{i, "2", "3","4", "5", "Book"});
+		));
+		model = (DefaultTableModel) table.getModel();
+		//Load the table
+		try {
+			myStatement= conn.createStatement();
+			query = "SELECT * FROM Rooms_v1";
+			myResult = myStatement.executeQuery(query);
+			while(myResult.next()) {
+				model.addRow(new Object[]{myResult.getInt(1), myResult.getFloat(2), myResult.getString(3), myResult.getString(4), myResult.getString(5), "Book"});
 			}
-			table.setModel(model);
+		} catch (Exception ex){
+			ex.printStackTrace();
+		}
+		
+		table.setModel(model);
 		    
-		    //Book Button
-		    Action book = new AbstractAction()
-		    {
-		        public void actionPerformed(ActionEvent e)
-		        {
-		            JTable table = (JTable)e.getSource();
-		            int modelRow = Integer.valueOf( e.getActionCommand() );
-		            String value = table.getModel().getValueAt(modelRow, 0).toString();
-		            System.out.println("Room Number: "+value);
-		            close();
-			        RoomBooking frame = new RoomBooking(conn, username, value);
-			        frame.setVisible(true);
-		        }
-		    };
-		    ButtonColumn buttonColumn = new ButtonColumn(table, book, 5);
-		    buttonColumn.setMnemonic(KeyEvent.VK_D);
+		//Book Button
+		Action book = new AbstractAction()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				try {
+					JTable table = (JTable)e.getSource();
+					int modelRow = Integer.valueOf( e.getActionCommand() );
+					String value = table.getModel().getValueAt(modelRow, 0).toString();
+					System.out.println("Room Number: "+value);
+					myStatement = conn.createStatement();
+					//Run query to check if the roomnumber already exist in the DB
+					query = "INSERT INTO Bookings_v1 Values (XXX,”XXX”,XXX,XXX,XXX,”RESERVED”)";
+					myResult = myStatement.executeQuery(query);
+					close();
+					RoomBooking frame = new RoomBooking(conn, username, value);
+					frame.setVisible(true);
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+		};
+		ButtonColumn buttonColumn = new ButtonColumn(table, book, 5);
+		buttonColumn.setMnemonic(KeyEvent.VK_D);
 		
 		scrollPane.setViewportView(table);
 		

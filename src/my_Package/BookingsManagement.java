@@ -34,6 +34,10 @@ public class BookingsManagement extends JFrame {
 	private JPanel contentPane;
 	private JTable table;
 	public String selectedNum=null;
+	Statement myStatement = null;
+	String query;
+	ResultSet myResult;
+	
 	/**
 	 * Launch the application.
 	 */

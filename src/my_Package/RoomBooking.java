@@ -19,6 +19,9 @@ import com.github.lgooddatepicker.components.DateTimePicker;
 public class RoomBooking extends JFrame {
 
 	private JPanel contentPane;
+	Statement myStatement = null;
+	String query;
+	ResultSet myResult;
 
 	/**
 	 * Launch the application.
@@ -137,7 +140,7 @@ public class RoomBooking extends JFrame {
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Check-Out Time");
-		lblNewLabel_1.setBounds(428, 220, 85, 13);
+		lblNewLabel_1.setBounds(428, 220, 100, 13);
 		contentPane.add(lblNewLabel_1);
 		
 		DateTimePicker dateTimePicker = new DateTimePicker();
