@@ -54,6 +54,7 @@ public class Login extends JFrame {
 	 * Create the frame.
 	 */
 	public Login() throws Exception{
+		setTitle("Hotel Xenios | Login");
 		setResizable(false);
 		Pattern special = Pattern.compile ("[*()_+=|<>?{}\\[\\]~-]"); 
 		//Start the DB connection
@@ -72,20 +73,20 @@ public class Login extends JFrame {
 		contentPane.setLayout(null);
 		
 		JLabel lblUsername = new JLabel("Username:");
-		lblUsername.setBounds(63, 81, 75, 15);
+		lblUsername.setBounds(120, 90, 75, 15);
 		contentPane.add(lblUsername);
 		
 		JLabel lblPassword = new JLabel("Password:");
-		lblPassword.setBounds(63, 144, 75, 15);
+		lblPassword.setBounds(120, 140, 75, 15);
 		contentPane.add(lblPassword);
 		
 		username_txtfield = new JTextField();
-		username_txtfield.setBounds(224, 78, 150, 20);
+		username_txtfield.setBounds(200, 90, 150, 20);
 		contentPane.add(username_txtfield);
 		username_txtfield.setColumns(10);
 		
 		JLabel lblCapsLockOn = new JLabel("Caps Lock is On");
-		lblCapsLockOn.setBounds(224, 177, 106, 13);
+		lblCapsLockOn.setBounds(200, 165, 106, 13);
 		contentPane.add(lblCapsLockOn);
 		lblCapsLockOn.setVisible(false);
 		
@@ -114,7 +115,7 @@ public class Login extends JFrame {
 					lblCapsLockOn.setVisible(false);
 			}
 		});
-		password_passfield.setBounds(224, 141, 150, 20);
+		password_passfield.setBounds(200, 140, 150, 20);
 		contentPane.add(password_passfield);
 		
 		//Login Button and handling Login
@@ -194,7 +195,7 @@ public class Login extends JFrame {
 				}
 			}
 		});
-		loginButton.setBounds(224, 200, 89, 23);
+		loginButton.setBounds(250, 200, 89, 23);
 		contentPane.add(loginButton);
 		
 		//Register Button and handling registration
@@ -267,7 +268,7 @@ public class Login extends JFrame {
 				
 			}
 		});
-		registerButton.setBounds(73, 200, 89, 23);
+		registerButton.setBounds(120, 200, 89, 23);
 		contentPane.add(registerButton);
 		
 		JLabel lblTitle = new JLabel("Hotel Xenios");
