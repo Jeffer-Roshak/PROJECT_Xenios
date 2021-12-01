@@ -36,6 +36,7 @@ import javax.swing.table.TableModel;
 
 import java.awt.FlowLayout;
 import javax.swing.JLabel;
+import java.awt.Font;
 
 @SuppressWarnings({ "serial", "unused" })
 public class Admin extends JFrame {
@@ -68,27 +69,20 @@ public class Admin extends JFrame {
 	 * Create the frame.
 	 */
 	public Admin(Connection conn, String username){
+		setTitle("Admin | Home Page");
 		
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 563, 318);
+		setBounds(100, 100, 600, 500);
 		contentPane = new JPanel();
-		contentPane.setBackground(Color.WHITE);
+		contentPane.setBackground(new Color(248, 248, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
-		//Create Room Button and calling JFrame for Create Room
-		JButton roomCreate = new JButton("Create Room");
-		roomCreate.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				close();
-		        RoomCreation frame = new RoomCreation(conn, username);
-		        frame.setVisible(true);
-			}
-		});
-		contentPane.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		contentPane.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(45, 110, 502, 226);
 		contentPane.add(scrollPane);
 		String[] columns={
 				"Number", "Price", "Luxury Level", "Balcony", "Outlook"
@@ -180,6 +174,7 @@ public class Admin extends JFrame {
 		table.setBackground(Color.WHITE);
 		
 		JButton btnNewButton = new JButton("Add Admin");
+		btnNewButton.setBounds(460, 70, 83, 21);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				close();
@@ -188,9 +183,9 @@ public class Admin extends JFrame {
 			}
 		});
 		contentPane.add(btnNewButton);
-		contentPane.add(roomCreate);
 		
 		JButton logOut = new JButton("Log Out");
+		logOut.setBounds(520, 10, 67, 21);
 		logOut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				close();
@@ -207,7 +202,19 @@ public class Admin extends JFrame {
 		contentPane.add(logOut);
 		
 		JLabel lblUsername = new JLabel("Logged in as "+username);
+		lblUsername.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblUsername.setBounds(21, 70, 250, 20);
 		contentPane.add(lblUsername);
+		
+		JLabel lblTitle = new JLabel("Hotel Xenios");
+		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 40));
+		lblTitle.setBounds(20, 5, 300, 60);
+		contentPane.add(lblTitle);
+		
+		JLabel lblXenios = new JLabel("Powered by XeniOS");
+		lblXenios.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		lblXenios.setBounds(22, 50, 110, 15);
+		contentPane.add(lblXenios);
 		
 		
 		
