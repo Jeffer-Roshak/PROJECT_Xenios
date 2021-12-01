@@ -25,7 +25,9 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
 import java.util.regex.Matcher; 
-import java.util.regex.Pattern; 
+import java.util.regex.Pattern;
+import java.awt.Font;
+import java.awt.Color; 
 
 public class AdminRegistration extends JFrame {
 
@@ -58,29 +60,31 @@ public class AdminRegistration extends JFrame {
 	 * Create the frame.
 	 */
 	public AdminRegistration(Connection conn, String username) {
+		setTitle("Admin Registration");
 		Pattern special = Pattern.compile ("[*()_+=|<>?{}\\[\\]~-]"); 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 741, 542);
+		setBounds(100, 100, 500, 400);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(248, 248, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JLabel lblUsername = new JLabel("Username:");
-		lblUsername.setBounds(111, 87, 77, 14);
+		lblUsername.setBounds(120, 90, 75, 15);
 		contentPane.add(lblUsername);
 		
 		username_textfield = new JTextField();
 		username_textfield.setColumns(10);
-		username_textfield.setBounds(240, 85, 150, 20);
+		username_textfield.setBounds(200, 90, 150, 20);
 		contentPane.add(username_textfield);
 		
 		JLabel lblPassword = new JLabel("Password:");
-		lblPassword.setBounds(111, 147, 61, 14);
+		lblPassword.setBounds(120, 140, 75, 15);
 		contentPane.add(lblPassword);
 		
 		JLabel lblCapsLockOn = new JLabel("Caps Lock is On");
-		lblCapsLockOn.setBounds(240, 197, 122, 13);
+		lblCapsLockOn.setBounds(200, 165, 122, 13);
 		contentPane.add(lblCapsLockOn);
 		lblCapsLockOn.setVisible(false);
 		
@@ -109,7 +113,7 @@ public class AdminRegistration extends JFrame {
 					lblCapsLockOn.setVisible(false);
 			}
 		});
-		password_passfield.setBounds(240, 145, 150, 20);
+		password_passfield.setBounds(200, 140, 150, 20);
 		contentPane.add(password_passfield);
 		
 		JButton registerButton = new JButton("Register");
@@ -180,14 +184,8 @@ public class AdminRegistration extends JFrame {
 				}
 			}
 		});
-		registerButton.setBounds(179, 232, 89, 23);
+		registerButton.setBounds(190, 200, 89, 23);
 		contentPane.add(registerButton);
-		
-		
-		
-		JLabel lblNewLabel = new JLabel("Admin Registration");
-		lblNewLabel.setBounds(51, 35, 128, 13);
-		contentPane.add(lblNewLabel);
 		
 		JButton btnNewButton_2 = new JButton("Back to Main Page");
 		btnNewButton_2.addActionListener(new ActionListener() {
@@ -198,7 +196,7 @@ public class AdminRegistration extends JFrame {
 		        //Ensure all reserved status is changed
 			}
 		});
-		btnNewButton_2.setBounds(488, 31, 147, 21);
+		btnNewButton_2.setBounds(325, 330, 150, 21);
 		contentPane.add(btnNewButton_2);
 		
 		JButton btnNewButton = new JButton("Log Out");
@@ -215,8 +213,18 @@ public class AdminRegistration extends JFrame {
 				}
 			}
 		});
-		btnNewButton.setBounds(494, 84, 85, 21);
+		btnNewButton.setBounds(390, 10, 85, 21);
 		contentPane.add(btnNewButton);
+		
+		JLabel lblTitle = new JLabel("Hotel Xenios");
+		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 40));
+		lblTitle.setBounds(20, 5, 300, 60);
+		contentPane.add(lblTitle);
+		
+		JLabel lblXenios = new JLabel("Powered by XeniOS");
+		lblXenios.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		lblXenios.setBounds(22, 50, 110, 15);
+		contentPane.add(lblXenios);
 	}
 	
 	public void close() {
