@@ -1,7 +1,7 @@
 package my_Package;
 
 import java.sql.*;
-import java.awt.BorderLayout;
+import java.awt.*;
 import java.awt.EventQueue;
 import java.awt.Toolkit;
 
@@ -61,7 +61,7 @@ public class AdminRegistration extends JFrame {
 	 */
 	public AdminRegistration(Connection conn, String username) {
 		setTitle("Admin Registration");
-		Pattern special = Pattern.compile ("[*()_+=|<>?{}\\[\\]~-]"); 
+		Pattern special = Pattern.compile ("[*()_+=|<>?{}\\[\\]~-]"); //Characters we need to detect for scripting
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 500, 400);
 		contentPane = new JPanel();
@@ -102,7 +102,7 @@ public class AdminRegistration extends JFrame {
 			public void focusLost(FocusEvent e) {
 				lblCapsLockOn.setVisible(false);
 			}
-		});
+		});//If caps lock is on, set label as visible to notify user
 		password_passfield.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -112,7 +112,7 @@ public class AdminRegistration extends JFrame {
 				else
 					lblCapsLockOn.setVisible(false);
 			}
-		});
+		});//If caps lock is on, set label as visible to notify user
 		password_passfield.setBounds(200, 140, 150, 20);
 		contentPane.add(password_passfield);
 		
@@ -124,14 +124,14 @@ public class AdminRegistration extends JFrame {
 					//If any field is empty
 					JOptionPane.showMessageDialog(null, "Username or Password field is empty", "Registration: Fields Empty", JOptionPane.INFORMATION_MESSAGE);
 					System.out.println("password or username is empty");
-				}
+				}//if fields empty, notify user
 				else {
 					Matcher hasSpecial = special.matcher(username_textfield.getText()); 
 					Matcher hasSpecial2 = special.matcher( String.valueOf(password_passfield.getPassword())); 
 					if(hasSpecial.find()||hasSpecial2.find()) {
 						JOptionPane.showMessageDialog(null, "Username and Password cannot have the characters [*()_+=|<>?{}\\\\[\\\\]~-]", "Invalid Characters", JOptionPane.INFORMATION_MESSAGE);
 						return;
-					}
+					}//Using matchers to detect special characters specified above. If they exist, display error
 					//If the fields are not empty, then check if the username and password is greater than 5 and 8 respectively
 					if((String.valueOf(password_passfield.getPassword()).length()>=8)&&(username_textfield.getText().length()>=5)) {
 						try {
@@ -167,7 +167,7 @@ public class AdminRegistration extends JFrame {
 									} catch (NoSuchAlgorithmException e1) {
 										// TODO Auto-generated catch block
 										e1.printStackTrace();
-									}
+									}//Insert user if all values are correct and username doesnt exist
 							}
 							else {
 								JOptionPane.showMessageDialog(null, "Username already exists", "Registration: Invalid username", JOptionPane.ERROR_MESSAGE);
@@ -195,7 +195,7 @@ public class AdminRegistration extends JFrame {
 		        frame.setVisible(true);
 		        //Ensure all reserved status is changed
 			}
-		});
+		});//Close window and open main admin page
 		btnNewButton_2.setBounds(325, 330, 150, 21);
 		contentPane.add(btnNewButton_2);
 		
@@ -211,7 +211,7 @@ public class AdminRegistration extends JFrame {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-			}
+			}//Close and open a new login frame
 		});
 		btnNewButton.setBounds(390, 10, 85, 21);
 		contentPane.add(btnNewButton);
