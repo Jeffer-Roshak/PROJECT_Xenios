@@ -24,6 +24,9 @@ import java.awt.event.WindowEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
+import java.util.regex.Matcher; 
+import java.util.regex.Pattern; 
+
 public class AdminRegistration extends JFrame {
 
 	private JPanel contentPane;
@@ -55,6 +58,7 @@ public class AdminRegistration extends JFrame {
 	 * Create the frame.
 	 */
 	public AdminRegistration(Connection conn, String username) {
+		Pattern special = Pattern.compile ("[*()_+=|<>?{}\\[\\]~-]"); 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 741, 542);
 		contentPane = new JPanel();
@@ -118,6 +122,12 @@ public class AdminRegistration extends JFrame {
 					System.out.println("password or username is empty");
 				}
 				else {
+					Matcher hasSpecial = special.matcher(username_textfield.getText()); 
+					Matcher hasSpecial2 = special.matcher( String.valueOf(password_passfield.getPassword())); 
+					if(hasSpecial.find()||hasSpecial2.find()) {
+						JOptionPane.showMessageDialog(null, "Username and Password cannot have the characters [*()_+=|<>?{}\\\\[\\\\]~-]", "Invalid Characters", JOptionPane.INFORMATION_MESSAGE);
+						return;
+					}
 					//If the fields are not empty, then check if the username and password is greater than 5 and 8 respectively
 					if((String.valueOf(password_passfield.getPassword()).length()>=8)&&(username_textfield.getText().length()>=5)) {
 						try {

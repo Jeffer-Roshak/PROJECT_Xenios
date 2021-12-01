@@ -128,6 +128,29 @@ public class RoomEdit extends JFrame {
 				}
 				else {
 					//Perform field checks here
+					boolean incorrect=false;
+					String message="Please fix the following issue(s):\n";
+					//Checking Price
+					try{ 
+						Float.parseFloat(price.getText()); 
+					}catch(NumberFormatException e1){ 
+						message+="Room number must be a float value\n";
+						incorrect=true;
+					}
+					//Check Luxury Text
+					if(!luxury_cb.getSelectedItem().toString().matches("[a-zA-Z]+")) {
+						message+="Luxury level must only contain letters\n";
+						incorrect=true;
+					}	
+					//Check Outlook Text
+					if(!outlook_cb.getSelectedItem().toString().matches("[a-zA-Z]+")) {
+						message+="Outlook must only contain letters\n";
+						incorrect=true;
+					}	
+					if(incorrect) {
+						JOptionPane.showMessageDialog(null, message,"Invalid format", JOptionPane.INFORMATION_MESSAGE);
+						return;
+					}
 					//Check if room number already exists in the DB
 					try {
 						query = "UPDATE rooms_v1 SET price="+price.getText()+", Luxury_label='"+luxury_cb.getSelectedItem()+"', balcony='"+balcony_cb.getSelectedItem()+"', outlook='"+outlook_cb.getSelectedItem()+"' WHERE Room_Number="+roomNumber+"";

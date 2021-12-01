@@ -162,7 +162,7 @@ public class RoomBooking extends JFrame {
 					return;
 				}
 				if(checkIn.isBefore(lt)) {
-					JOptionPane.showMessageDialog(null, "Please choose a check in time before current time", "Incorrect Time", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Please choose a check in time after current time", "Incorrect Time", JOptionPane.INFORMATION_MESSAGE);
 					return;
 				}
 				if(checkIn.isBefore(checkOut)){

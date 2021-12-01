@@ -121,6 +121,37 @@ public class RoomCreation extends JFrame {
 				}
 				else {
 					//Perform field checks here
+					boolean incorrect=false;
+					String message="Please fix the following issue(s):\n";
+					//Checking RoomNumber
+					try{ 
+						if(Integer.parseInt(roomNumber_tf.getText())<0)
+							incorrect=true;
+					}catch(NumberFormatException e1){ 
+						 message+="Room number must be a postive integer\n";
+						 incorrect=true;
+					} 
+					//Checking Price
+					try{ 
+						Float.parseFloat(price_tf.getText()); 
+					}catch(NumberFormatException e1){ 
+						message+="Room number must be a float value\n";
+						incorrect=true;
+					}
+					//Check Luxury Text
+					if(!luxury_cb.getSelectedItem().toString().matches("[a-zA-Z]+")) {
+						message+="Luxury level must only contain letters\n";
+						incorrect=true;
+					}	
+					//Check Outlook Text
+					if(!outlook_cb.getSelectedItem().toString().matches("[a-zA-Z]+")) {
+						message+="Outlook must only contain letters\n";
+						incorrect=true;
+					}	
+					if(incorrect) {
+						JOptionPane.showMessageDialog(null, message,"Invalid format", JOptionPane.INFORMATION_MESSAGE);
+						return;
+					}
 					//Check if room number already exists in the DB
 					try {
 						myStatement = conn.createStatement();
@@ -139,7 +170,7 @@ public class RoomCreation extends JFrame {
 					            outlook_cb.setSelectedItem("");
 							}
 						else {
-							JOptionPane.showMessageDialog(null, "Room number already exists", "Create Room: Invalid username", JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(null, "Room number already exists", "Create Room: Invalid Room Number", JOptionPane.ERROR_MESSAGE);
 						}
 					} catch (Exception ex) {
 						ex.printStackTrace();

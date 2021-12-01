@@ -22,6 +22,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
+import java.util.regex.Matcher; 
+import java.util.regex.Pattern; 
 
 /*
  * Class Login Information
@@ -52,6 +54,8 @@ public class Login extends JFrame {
 	 * Create the frame.
 	 */
 	public Login() throws Exception{
+		setResizable(false);
+		Pattern special = Pattern.compile ("[*()_+=|<>?{}\\[\\]~-]"); 
 		//Start the DB connection
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		Connection conn = DriverManager.getConnection
@@ -60,18 +64,19 @@ public class Login extends JFrame {
 		System.out.println("Connected to system DB");
 				
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 641, 523);
+		setBounds(100, 100, 500, 400);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(248, 248, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JLabel lblUsername = new JLabel("Username:");
-		lblUsername.setBounds(63, 81, 77, 14);
+		lblUsername.setBounds(63, 81, 75, 15);
 		contentPane.add(lblUsername);
 		
 		JLabel lblPassword = new JLabel("Password:");
-		lblPassword.setBounds(63, 144, 61, 14);
+		lblPassword.setBounds(63, 144, 75, 15);
 		contentPane.add(lblPassword);
 		
 		username_txtfield = new JTextField();
@@ -123,7 +128,12 @@ public class Login extends JFrame {
 					System.out.println("password or username is empty");
 				}
 				else {
-					
+					Matcher hasSpecial = special.matcher( username_txtfield.getText()); 
+					Matcher hasSpecial2 = special.matcher( String.valueOf(password_passfield.getPassword())); 
+					if(hasSpecial.find()||hasSpecial2.find()) {
+						JOptionPane.showMessageDialog(null, "Username and Password cannot have the characters [*()_+=|<>?{}\\\\[\\\\]~-]", "Invalid Characters", JOptionPane.INFORMATION_MESSAGE);
+						return;
+					}
 					//If the fields are not empty, then check if the username and password is greater than 5 and 8 respectively
 					if((String.valueOf(password_passfield.getPassword()).length()>=8)&&(username_txtfield.getText().length()>=5)) {
 						MessageDigest md = null;
@@ -198,6 +208,12 @@ public class Login extends JFrame {
 					System.out.println("password or username is empty");
 				}
 				else {
+					Matcher hasSpecial = special.matcher( username_txtfield.getText()); 
+					Matcher hasSpecial2 = special.matcher( String.valueOf(password_passfield.getPassword())); 
+					if(hasSpecial.find()||hasSpecial2.find()) {
+						JOptionPane.showMessageDialog(null, "Username and Password cannot have the characters [*()+=|<>?{}~-]", "Invalid Characters", JOptionPane.INFORMATION_MESSAGE);
+						return;
+					}
 					//If the fields are not empty, then check if the username and password is greater than 5 and 8 respectively
 					if((String.valueOf(password_passfield.getPassword()).length()>=8)&&(username_txtfield.getText().length()>=5)) {
 						try {
@@ -253,6 +269,16 @@ public class Login extends JFrame {
 		});
 		registerButton.setBounds(73, 200, 89, 23);
 		contentPane.add(registerButton);
+		
+		JLabel lblTitle = new JLabel("Hotel Xenios");
+		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 40));
+		lblTitle.setBounds(20, 5, 300, 60);
+		contentPane.add(lblTitle);
+		
+		JLabel lblXenios = new JLabel("Powered by XeniOS");
+		lblXenios.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		lblXenios.setBounds(22, 50, 110, 15);
+		contentPane.add(lblXenios);
 		
 		
 	}
