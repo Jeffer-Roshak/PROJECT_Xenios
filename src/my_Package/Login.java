@@ -123,6 +123,7 @@ public class Login extends JFrame {
 					System.out.println("password or username is empty");
 				}
 				else {
+					
 					//If the fields are not empty, then check if the username and password is greater than 5 and 8 respectively
 					if((String.valueOf(password_passfield.getPassword()).length()>=8)&&(username_txtfield.getText().length()>=5)) {
 						MessageDigest md = null;

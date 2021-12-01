@@ -20,8 +20,6 @@ import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 
 import com.github.lgooddatepicker.components.*;
-import com.github.lgooddatepicker.components.DatePickerSettings;
-import com.github.lgooddatepicker.components.DateTimePicker;
 
 public class RoomBooking extends JFrame {
 
@@ -79,16 +77,23 @@ public class RoomBooking extends JFrame {
 		contentPane.add(lblOutlook);
 		
 		DatePickerSettings dateSettings1 = new DatePickerSettings();
-		DateTimePicker checkInTime = new DateTimePicker(dateSettings1, null);
+		TimePickerSettings timeSettings1 = new TimePickerSettings();
+		timeSettings1.setAllowKeyboardEditing(false);
+		DateTimePicker checkInTime = new DateTimePicker(dateSettings1, timeSettings1);
 		checkInTime.setBounds(52, 258, 271, 23);
 		contentPane.add(checkInTime);
 		dateSettings1.setDateRangeLimits(LocalDate.now(), null);
+		dateSettings1.setAllowKeyboardEditing(false);
+		
 		
 		DatePickerSettings dateSettings2 = new DatePickerSettings();
-		DateTimePicker checkOutTime = new DateTimePicker(dateSettings2, null);
+		TimePickerSettings timeSettings2 = new TimePickerSettings();
+		timeSettings2.setAllowKeyboardEditing(false);
+		DateTimePicker checkOutTime = new DateTimePicker(dateSettings2, timeSettings2);
 		checkOutTime.setBounds(428, 258, 248, 23);
 		contentPane.add(checkOutTime);
 		dateSettings2.setDateRangeLimits(LocalDate.now(), null);
+		dateSettings2.setAllowKeyboardEditing(false);
 		
 		JLabel dlbRoomNumber = new JLabel("TestRoomNumber");
 		dlbRoomNumber.setHorizontalAlignment(SwingConstants.LEFT);
@@ -150,7 +155,16 @@ public class RoomBooking extends JFrame {
 				//Verify dates from LGoodDatepicker
 				LocalDateTime checkIn = checkInTime.getDateTimeStrict();
 				LocalDateTime checkOut = checkOutTime.getDateTimeStrict();
+				LocalDateTime lt = LocalDateTime.now();
 				DateTimeFormatter formatter= DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+				if(checkIn==null||checkOut==null) {
+					JOptionPane.showMessageDialog(null, "Please ensure that the time and date fields are filled", "No date or time chosen", JOptionPane.INFORMATION_MESSAGE);
+					return;
+				}
+				if(checkIn.isBefore(lt)) {
+					JOptionPane.showMessageDialog(null, "Please choose a check in time before current time", "Incorrect Time", JOptionPane.INFORMATION_MESSAGE);
+					return;
+				}
 				if(checkIn.isBefore(checkOut)){
 					//Run query to see if the room has a booking after system time and see if the timing conflicts with the chosen time.
 					try {
@@ -198,10 +212,15 @@ public class RoomBooking extends JFrame {
 		JButton btnNewButton_1 = new JButton("Cancel");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				try {
+					query="DELETE FROM Bookings_v1 WHERE booking_id="+booking_id;
+					myResult = myStatement.executeQuery(query);
+				}catch (Exception ex) {
+					ex.printStackTrace();
+				}
 				close();
 		        Customer frame = new Customer(conn, username);
 		        frame.setVisible(true);
-		        //Ensure all reserved status is changed
 			}
 		});
 		btnNewButton_1.setBounds(123, 307, 85, 21);
@@ -239,6 +258,22 @@ public class RoomBooking extends JFrame {
 		});
 		TestButton.setBounds(528, 359, 85, 21);
 		contentPane.add(TestButton);
+		
+		this.addWindowListener(new java.awt.event.WindowAdapter() {
+		    @Override
+		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+		    	try {
+					query="DELETE FROM Bookings_v1 WHERE booking_id="+booking_id;
+					myResult = myStatement.executeQuery(query);
+				}catch (Exception ex) {
+					ex.printStackTrace();
+				}
+				close();
+		        Customer frame = new Customer(conn, username);
+		        frame.setVisible(true);
+		    }
+		});
+		
 		/* SELECT Booking_id FROM Bookings_v1
 WHERE ((to_date('2021-12-01 15:00:00', 'YYYY-MM-DD HH24:MI:SS') BETWEEN check_in_time AND check_out_time) 
 OR (to_date('2021-12-02 16:45:00', 'YYYY-MM-DD HH24:MI:SS') BETWEEN check_in_time AND check_out_time)) 
