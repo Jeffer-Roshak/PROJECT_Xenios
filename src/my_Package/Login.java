@@ -56,7 +56,7 @@ public class Login extends JFrame {
 	public Login() throws Exception{
 		setTitle("Hotel Xenios | Login");
 		setResizable(false);
-		Pattern special = Pattern.compile ("[*()_+=|<>?{}\\[\\]~-]"); 
+		Pattern special = Pattern.compile ("[*()_+=|<>?{}\\[\\]~-]"); //Characters we need to detect for scripting
 		//Start the DB connection
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		Connection conn = DriverManager.getConnection
@@ -103,7 +103,7 @@ public class Login extends JFrame {
 					lblCapsLockOn.setVisible(true);
 				else
 					lblCapsLockOn.setVisible(false);
-			}
+			}//If caps lock is on, set label as visible to notify user
 		});
 		password_passfield.addKeyListener(new KeyAdapter() {
 			@Override
@@ -113,7 +113,7 @@ public class Login extends JFrame {
 					lblCapsLockOn.setVisible(true);
 				else
 					lblCapsLockOn.setVisible(false);
-			}
+			}//If caps lock is on, set label as visible to notify user
 		});
 		password_passfield.setBounds(200, 140, 150, 20);
 		contentPane.add(password_passfield);
@@ -127,14 +127,14 @@ public class Login extends JFrame {
 					//If any field is empty
 					JOptionPane.showMessageDialog(null, "Username or Password field is empty", "Login: Fields Empty", JOptionPane.INFORMATION_MESSAGE);
 					System.out.println("password or username is empty");
-				}
+				}//if fields empty, notify user
 				else {
 					Matcher hasSpecial = special.matcher( username_txtfield.getText()); 
-					Matcher hasSpecial2 = special.matcher( String.valueOf(password_passfield.getPassword())); 
+					Matcher hasSpecial2 = special.matcher( String.valueOf(password_passfield.getPassword())); //Matchers used to detect special characters
 					if(hasSpecial.find()||hasSpecial2.find()) {
 						JOptionPane.showMessageDialog(null, "Username and Password cannot have the characters [*()_+=|<>?{}\\\\[\\\\]~-]", "Invalid Characters", JOptionPane.INFORMATION_MESSAGE);
 						return;
-					}
+					}//Using matchers to detect special characters specified above. If they exist, display error
 					//If the fields are not empty, then check if the username and password is greater than 5 and 8 respectively
 					if((String.valueOf(password_passfield.getPassword()).length()>=8)&&(username_txtfield.getText().length()>=5)) {
 						MessageDigest md = null;
@@ -207,14 +207,14 @@ public class Login extends JFrame {
 					//If any field is empty
 					JOptionPane.showMessageDialog(null, "Username or Password field is empty", "Registration: Fields Empty", JOptionPane.INFORMATION_MESSAGE);
 					System.out.println("password or username is empty");
-				}
+				}//Check if username and password fields are empty
 				else {
 					Matcher hasSpecial = special.matcher( username_txtfield.getText()); 
-					Matcher hasSpecial2 = special.matcher( String.valueOf(password_passfield.getPassword())); 
+					Matcher hasSpecial2 = special.matcher( String.valueOf(password_passfield.getPassword())); //Matchers used to detect special characters
 					if(hasSpecial.find()||hasSpecial2.find()) {
 						JOptionPane.showMessageDialog(null, "Username and Password cannot have the characters [*()+=|<>?{}~-]", "Invalid Characters", JOptionPane.INFORMATION_MESSAGE);
 						return;
-					}
+					}//Using matchers to detect special characters specified above. If they exist, display error
 					//If the fields are not empty, then check if the username and password is greater than 5 and 8 respectively
 					if((String.valueOf(password_passfield.getPassword()).length()>=8)&&(username_txtfield.getText().length()>=5)) {
 						try {
@@ -224,7 +224,7 @@ public class Login extends JFrame {
 							ResultSet myResult = myStatement.executeQuery(query);
 							//If it exists, print error message
 							//Else, generate hash and run query to insert new user
-							if(!myResult.isBeforeFirst()) {
+							if(!myResult.isBeforeFirst()) {//Check if username exists already, if it does not exist the query will be empty
 								MessageDigest md = null;
 								try {
 									md = MessageDigest.getInstance("SHA-512");
