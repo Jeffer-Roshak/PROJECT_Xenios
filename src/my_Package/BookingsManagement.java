@@ -29,6 +29,8 @@ import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.table.TableModel;
 import java.awt.FlowLayout;
+import javax.swing.JLabel;
+import java.awt.Font;
 
 @SuppressWarnings({ "serial", "unused" })
 public class BookingsManagement extends JFrame {
@@ -64,14 +66,15 @@ public class BookingsManagement extends JFrame {
 	public BookingsManagement(Connection conn, String username) {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 563, 318);
+		setBounds(100, 100, 600, 400);
 		contentPane = new JPanel();
-		contentPane.setBackground(Color.WHITE);
+		contentPane.setBackground(new Color(248, 248, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		contentPane.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(45, 90, 502, 226);
 		contentPane.add(scrollPane);
 		String[] columns={
 				"Booking ID", "Customer Name", "Room Number", "Check In Time", "Check Out Time","Cancel"
@@ -135,6 +138,7 @@ public class BookingsManagement extends JFrame {
 		table.setBackground(Color.WHITE);
 		
 		JButton logOut = new JButton("Log Out");
+		logOut.setBounds(520, 10, 67, 21);
 		logOut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				close();
@@ -150,15 +154,8 @@ public class BookingsManagement extends JFrame {
 		});
 		contentPane.add(logOut);
 		
-		JButton cancelButton = new JButton("Cancel Booking");
-		cancelButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Cancel:"+selectedNum);
-			}
-		});
-		contentPane.add(cancelButton);
-		
 		JButton btnNewButton_2 = new JButton("Back to Main Page");
+		btnNewButton_2.setBounds(425, 330, 150, 21);
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				close();
@@ -168,6 +165,16 @@ public class BookingsManagement extends JFrame {
 			}
 		});
 		contentPane.add(btnNewButton_2);
+		
+		JLabel lblTitle = new JLabel("Hotel Xenios");
+		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 40));
+		lblTitle.setBounds(20, 5, 300, 60);
+		contentPane.add(lblTitle);
+		
+		JLabel lblXenios = new JLabel("Powered by XeniOS");
+		lblXenios.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		lblXenios.setBounds(22, 50, 110, 15);
+		contentPane.add(lblXenios);
 		
 		
 		
