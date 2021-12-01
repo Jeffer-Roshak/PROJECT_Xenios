@@ -140,7 +140,6 @@ public class RoomBooking extends JFrame {
 				try {
 					query = "DELETE FROM Bookings_v1 WHERE booking_id="+booking_id;
 					myResult = myStatement.executeQuery(query);
-					myStatement.close();
 					close();
 					Login frame = new Login();
 					frame.setVisible(true);
@@ -219,14 +218,12 @@ public class RoomBooking extends JFrame {
 				try {
 					query="DELETE FROM Bookings_v1 WHERE booking_id="+booking_id;
 					myResult = myStatement.executeQuery(query);
-					myStatement.close();
 					close();
 			        Customer frame = new Customer(conn, username);
 			        frame.setVisible(true);
 				}catch (Exception ex) {
 					ex.printStackTrace();
 				}
-				
 			}
 		});
 		btnNewButton_1.setBounds(215, 358, 85, 21);
@@ -235,10 +232,16 @@ public class RoomBooking extends JFrame {
 		JButton btnNewButton_2 = new JButton("Back to Main Page");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				close();
-		        Customer frame = new Customer(conn, username);
-		        frame.setVisible(true);
-		        //Ensure all reserved status is changed
+				try {
+					query="DELETE FROM Bookings_v1 WHERE booking_id="+booking_id;
+					myResult = myStatement.executeQuery(query);
+					System.out.println("Test");
+					close();
+			        Customer frame = new Customer(conn, username);
+			        frame.setVisible(true);
+				}catch (Exception ex) {
+					ex.printStackTrace();
+				}
 			}
 		});
 		btnNewButton_2.setBounds(525, 430, 150, 21);
@@ -269,10 +272,6 @@ public class RoomBooking extends JFrame {
 					query="DELETE FROM Bookings_v1 WHERE booking_id="+booking_id;
 					myResult = myStatement.executeQuery(query);
 					System.out.println("Test");
-					myStatement.close();
-					close();
-			        Customer frame = new Customer(conn, username);
-			        frame.setVisible(true);
 				}catch (Exception ex) {
 					ex.printStackTrace();
 				}

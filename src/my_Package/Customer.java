@@ -57,6 +57,16 @@ public class Customer extends JFrame {
 	 * Create the frame.
 	 */
 	public Customer(Connection conn, String username) {
+		/*if(booking_id!=null) {
+			try {
+				myStatement = conn.createStatement();
+				query="DELETE FROM Bookings_v1 WHERE booking_id="+booking_id;
+				myResult = myStatement.executeQuery(query);
+				System.out.println("Test");
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}*/
 		setTitle("Customer | Home Page");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 600, 500);
@@ -162,7 +172,7 @@ public class Customer extends JFrame {
 		contentPane.add(btnNewButton);
 		
 		logoutButton = new JButton("Log Out");
-		logoutButton.setBounds(509, 10, 67, 21);
+		logoutButton.setBounds(494, 10, 82, 21);
 		logoutButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				close();
