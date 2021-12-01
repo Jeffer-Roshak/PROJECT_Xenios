@@ -20,6 +20,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 
 import com.github.lgooddatepicker.components.*;
+import java.awt.Color;
 
 public class RoomBooking extends JFrame {
 
@@ -49,8 +50,9 @@ public class RoomBooking extends JFrame {
 	 */
 	public RoomBooking(Connection conn, String username, String roomNumber, String booking_id) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 797, 576);
+		setBounds(100, 100, 700, 500);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(248, 248, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -145,7 +147,7 @@ public class RoomBooking extends JFrame {
 				}
 			}
 		});
-		logoutButton.setBounds(10, 10, 85, 21);
+		logoutButton.setBounds(590, 10, 85, 21);
 		contentPane.add(logoutButton);
 		
 		
@@ -215,12 +217,13 @@ public class RoomBooking extends JFrame {
 				try {
 					query="DELETE FROM Bookings_v1 WHERE booking_id="+booking_id;
 					myResult = myStatement.executeQuery(query);
+					close();
+			        Customer frame = new Customer(conn, username);
+			        frame.setVisible(true);
 				}catch (Exception ex) {
 					ex.printStackTrace();
 				}
-				close();
-		        Customer frame = new Customer(conn, username);
-		        frame.setVisible(true);
+				
 			}
 		});
 		btnNewButton_1.setBounds(123, 307, 85, 21);
@@ -235,7 +238,7 @@ public class RoomBooking extends JFrame {
 		        //Ensure all reserved status is changed
 			}
 		});
-		btnNewButton_2.setBounds(105, 10, 147, 21);
+		btnNewButton_2.setBounds(525, 430, 150, 21);
 		contentPane.add(btnNewButton_2);
 		
 		JLabel lblNewLabel = new JLabel("Check-In Time");
@@ -246,31 +249,20 @@ public class RoomBooking extends JFrame {
 		lblNewLabel_1.setBounds(428, 220, 100, 13);
 		contentPane.add(lblNewLabel_1);
 		
-		JButton TestButton = new JButton("Test DateTime");
-		TestButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Check In "+checkInTime.getDateTimeStrict());
-				System.out.println("Check Out "+checkOutTime.getDateTimeStrict());
-				DateTimeFormatter formatter= DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"); //HH is for 24 hour, hh is for 12 hour
-				System.out.println("Check Out "+checkOutTime.getDateTimeStrict().format(formatter));
-				System.out.println("After? "+checkInTime.getDateTimeStrict().isBefore(checkOutTime.getDateTimeStrict()));
-			}
-		});
-		TestButton.setBounds(528, 359, 85, 21);
-		contentPane.add(TestButton);
-		
 		this.addWindowListener(new java.awt.event.WindowAdapter() {
 		    @Override
 		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
 		    	try {
 					query="DELETE FROM Bookings_v1 WHERE booking_id="+booking_id;
 					myResult = myStatement.executeQuery(query);
+					System.out.println("Test");
+					close();
+			        Customer frame = new Customer(conn, username);
+			        frame.setVisible(true);
 				}catch (Exception ex) {
 					ex.printStackTrace();
 				}
-				close();
-		        Customer frame = new Customer(conn, username);
-		        frame.setVisible(true);
+		    	
 		    }
 		});
 		
