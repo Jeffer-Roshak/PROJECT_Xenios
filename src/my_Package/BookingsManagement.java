@@ -1,6 +1,8 @@
 package my_Package;
 
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
@@ -86,13 +88,24 @@ public class BookingsManagement extends JFrame {
 					"Booking ID", "Customer Name", "Room Number", "Check In Time", "Check Out Time", "Cancel"
 			}
 		));
-		for(int i =0;i<100;i++) {
-			model = (DefaultTableModel) table.getModel();
-			model.addRow(new Object[]{i, "2", "3","4","5","Cancel"});
+		model = (DefaultTableModel) table.getModel();
+		//Load the table
+		try {
+			LocalDateTime lt = LocalDateTime.now();
+			DateTimeFormatter formatter= DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+			myStatement= conn.createStatement();
+			query = "SELECT booking_id, customer_name, room_number, to_char(check_in_time, 'YYYY-MM-DD HH24:MI:SS') \"Check In Time\", to_char(check_out_time, 'YYYY-MM-DD HH24:MI:SS') \"Check Out Time\" FROM Bookings_v1 WHERE to_date('"+lt.format(formatter)+"', 'YYYY-MM-DD HH24:MI:SS')<check_in_time AND status='BOOKED' AND customer_name='"+username+"'";
+			myResult = myStatement.executeQuery(query);
+			while(myResult.next()) {
+				model.addRow(new Object[]{myResult.getString(1), myResult.getString(2), myResult.getString(3), myResult.getString(4), myResult.getString(5), "Cancel"});
+			}
+		} catch (Exception ex){
+			ex.printStackTrace();
 		}
+				
 		table.setModel(model);
 		
-		//Book Button
+		//Cancel Button
 	    Action cancel = new AbstractAction()
 	    {
 	        public void actionPerformed(ActionEvent e)
@@ -100,9 +113,15 @@ public class BookingsManagement extends JFrame {
 	            JTable table = (JTable)e.getSource();
 	            int modelRow = Integer.valueOf( e.getActionCommand() );
 	            String value = table.getModel().getValueAt(modelRow, 0).toString();
-	            System.out.println("Room Number: "+value);
+	            System.out.println("Booking ID "+value);
 	            //Cancel the booking
-	            //Remove the booking from the table
+	            try {
+	            	query="UPDATE Bookings_v1 SET status='CANCELLED' WHERE Booking_id="+value;
+	            	myResult = myStatement.executeQuery(query);
+	            	((DefaultTableModel)table.getModel()).removeRow(modelRow);
+	            } catch (Exception ex) {
+	            	ex.printStackTrace();
+	            }
 	        }
 	    };
 	    ButtonColumn buttonColumn = new ButtonColumn(table, cancel, 5);
@@ -116,6 +135,19 @@ public class BookingsManagement extends JFrame {
 		table.setBackground(Color.WHITE);
 		
 		JButton logOut = new JButton("Log Out");
+		logOut.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				close();
+				Login frame;
+				try {
+					frame = new Login();
+					frame.setVisible(true);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		contentPane.add(logOut);
 		
 		JButton cancelButton = new JButton("Cancel Booking");

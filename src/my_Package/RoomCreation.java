@@ -151,6 +151,19 @@ public class RoomCreation extends JFrame {
 		contentPane.add(add);
 		
 		JButton logOut = new JButton("Log Out");
+		logOut.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				close();
+				Login frame;
+				try {
+					frame = new Login();
+					frame.setVisible(true);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		logOut.setBounds(217, 240, 89, 23);
 		contentPane.add(logOut);
 		

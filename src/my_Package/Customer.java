@@ -18,6 +18,8 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.event.ActionListener;
 
 public class Customer extends JFrame {
@@ -110,12 +112,28 @@ public class Customer extends JFrame {
 					String value = table.getModel().getValueAt(modelRow, 0).toString();
 					System.out.println("Room Number: "+value);
 					myStatement = conn.createStatement();
-					//Run query to check if the roomnumber already exist in the DB
-					query = "INSERT INTO Bookings_v1 Values (XXX,”XXX”,XXX,XXX,XXX,”RESERVED”)";
+					//Check if the selected room is already reserved
+					query = "SELECT booking_id FROM Bookings_v1 WHERE room_number="+value+" AND status='RESERVED'";
 					myResult = myStatement.executeQuery(query);
-					close();
-					RoomBooking frame = new RoomBooking(conn, username, value);
-					frame.setVisible(true);
+					if(myResult.isBeforeFirst()) {
+						//If the room is already reserved for a booking
+						JOptionPane.showMessageDialog(null, "This room currently unavailable for booking. Please try again later.", "Room Unavailable", JOptionPane.INFORMATION_MESSAGE);
+					}
+					else {
+						//Create a booking and reserve the room if the room is not already reserved
+						query = "INSERT INTO Bookings_v1 Values ('"+username+"',"+value+", null , null, 'RESERVED', null)";
+						myResult = myStatement.executeQuery(query);
+						query = "SELECT booking_id FROM Bookings_v1 WHERE customer_name='"+username+"' AND room_number="+value+" AND status='RESERVED'";
+						myResult = myStatement.executeQuery(query);
+						String booking_id;
+						myResult.next();
+						booking_id = myResult.getString(1);
+						//System.out.println("Retrieve Booking: "+booking_id); //Debug statement
+						close();
+						//Proceed to room booking
+						RoomBooking frame = new RoomBooking(conn, username, value, booking_id);
+						frame.setVisible(true);
+					}
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
@@ -138,6 +156,19 @@ public class Customer extends JFrame {
 		contentPane.add(btnNewButton);
 		
 		logoutButton = new JButton("Log Out");
+		logoutButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				close();
+				Login frame;
+				try {
+					frame = new Login();
+					frame.setVisible(true);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		logoutButton.setBounds(10, 10, 85, 21);
 		contentPane.add(logoutButton);
 		

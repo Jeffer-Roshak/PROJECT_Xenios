@@ -191,6 +191,19 @@ public class Admin extends JFrame {
 		contentPane.add(roomCreate);
 		
 		JButton logOut = new JButton("Log Out");
+		logOut.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				close();
+				Login frame;
+				try {
+					frame = new Login();
+					frame.setVisible(true);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		contentPane.add(logOut);
 		
 		JLabel lblUsername = new JLabel("Logged in as "+username);

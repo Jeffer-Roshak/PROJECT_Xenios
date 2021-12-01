@@ -192,6 +192,19 @@ public class AdminRegistration extends JFrame {
 		contentPane.add(btnNewButton_2);
 		
 		JButton btnNewButton = new JButton("Log Out");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				close();
+				Login frame;
+				try {
+					frame = new Login();
+					frame.setVisible(true);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		btnNewButton.setBounds(494, 84, 85, 21);
 		contentPane.add(btnNewButton);
 	}
