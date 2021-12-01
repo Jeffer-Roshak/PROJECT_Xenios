@@ -20,6 +20,8 @@ import java.security.NoSuchAlgorithmException;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import java.awt.Font;
+import java.awt.Color;
 
 public class RoomCreation extends JFrame {
 
@@ -51,58 +53,60 @@ public class RoomCreation extends JFrame {
 	 * Create the frame.
 	 */
 	public RoomCreation(Connection conn, String username) {
+		setTitle("Admin | Create Room");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 500, 500);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(248, 248, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Number");
-		lblNewLabel.setBounds(10, 36, 46, 14);
-		contentPane.add(lblNewLabel);
+		JLabel lblNumber = new JLabel("Number");
+		lblNumber.setBounds(50, 130, 46, 14);
+		contentPane.add(lblNumber);
 		
 		JLabel lblPrice = new JLabel("Price");
-		lblPrice.setBounds(10, 80, 46, 14);
+		lblPrice.setBounds(50, 175, 46, 14);
 		contentPane.add(lblPrice);
 		
 		JLabel lblLuxuryLevel = new JLabel("Luxury Level");
-		lblLuxuryLevel.setBounds(10, 122, 75, 14);
+		lblLuxuryLevel.setBounds(50, 220, 75, 14);
 		contentPane.add(lblLuxuryLevel);
 		
 		JLabel lblBalcony = new JLabel("Balcony");
-		lblBalcony.setBounds(10, 168, 46, 14);
+		lblBalcony.setBounds(50, 265, 46, 14);
 		contentPane.add(lblBalcony);
 		
 		JLabel lblOutlook = new JLabel("Outlook");
-		lblOutlook.setBounds(10, 212, 46, 14);
+		lblOutlook.setBounds(50, 310, 46, 14);
 		contentPane.add(lblOutlook);
 		
 		roomNumber_tf = new JTextField();
-		roomNumber_tf.setBounds(220, 33, 86, 20);
+		roomNumber_tf.setBounds(230, 127, 86, 20);
 		contentPane.add(roomNumber_tf);
 		roomNumber_tf.setColumns(10);
 		
 		price_tf = new JTextField();
 		price_tf.setColumns(10);
-		price_tf.setBounds(220, 77, 86, 20);
+		price_tf.setBounds(230, 172, 86, 20);
 		contentPane.add(price_tf);
 		
 		JComboBox luxury_cb = new JComboBox();
 		luxury_cb.setEditable(true);
 		luxury_cb.setModel(new DefaultComboBoxModel(new String[] {"Single", "Double", "Suite"}));
-		luxury_cb.setBounds(220, 119, 86, 21);
+		luxury_cb.setBounds(230, 217, 86, 21);
 		contentPane.add(luxury_cb);
 		
 		JComboBox balcony_cb = new JComboBox();
 		balcony_cb.setModel(new DefaultComboBoxModel(new String[] {"Y", "N"}));
-		balcony_cb.setBounds(220, 165, 86, 21);
+		balcony_cb.setBounds(230, 262, 86, 21);
 		contentPane.add(balcony_cb);
 		
 		JComboBox outlook_cb = new JComboBox();
 		outlook_cb.setModel(new DefaultComboBoxModel(new String[] {"Beach", "Garden", "Pool"}));
 		outlook_cb.setEditable(true);
-		outlook_cb.setBounds(220, 209, 86, 21);
+		outlook_cb.setBounds(230, 307, 86, 21);
 		contentPane.add(outlook_cb);
 		
 		JButton add = new JButton("Submit");
@@ -178,7 +182,7 @@ public class RoomCreation extends JFrame {
 				}
 			}
 		});
-		add.setBounds(335, 238, 89, 23);
+		add.setBounds(230, 350, 89, 23);
 		contentPane.add(add);
 		
 		JButton logOut = new JButton("Log Out");
@@ -195,18 +199,15 @@ public class RoomCreation extends JFrame {
 				}
 			}
 		});
-		logOut.setBounds(217, 240, 89, 23);
+		logOut.setBounds(390, 10, 85, 21);
 		contentPane.add(logOut);
 		
-		JLabel lblNewLabel_1 = new JLabel("Create Room Page");
-		lblNewLabel_1.setBounds(10, 10, 100, 13);
-		contentPane.add(lblNewLabel_1);
-		
 		JLabel lblUsername = new JLabel("Logged in as "+username);
-		lblUsername.setBounds(10, 236, 169, 13);
+		lblUsername.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblUsername.setBounds(21, 70, 250, 20);
 		contentPane.add(lblUsername);
 		
-		JButton btnNewButton = new JButton("Back To Main");
+		JButton btnNewButton = new JButton("Back To Main Page");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				close();
@@ -214,8 +215,18 @@ public class RoomCreation extends JFrame {
 		        frame.setVisible(true);
 			}
 		});
-		btnNewButton.setBounds(273, 6, 153, 21);
+		btnNewButton.setBounds(325, 430, 150, 21);
 		contentPane.add(btnNewButton);
+		
+		JLabel lblTitle = new JLabel("Hotel Xenios");
+		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 40));
+		lblTitle.setBounds(20, 5, 300, 60);
+		contentPane.add(lblTitle);
+		
+		JLabel lblXenios = new JLabel("Powered by XeniOS");
+		lblXenios.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		lblXenios.setBounds(22, 50, 110, 15);
+		contentPane.add(lblXenios);
 		
 	}
 	
