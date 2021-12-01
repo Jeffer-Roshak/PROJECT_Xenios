@@ -21,6 +21,7 @@ import java.awt.event.ActionEvent;
 
 import com.github.lgooddatepicker.components.*;
 import java.awt.Color;
+import java.awt.Font;
 
 public class RoomBooking extends JFrame {
 
@@ -248,6 +249,16 @@ public class RoomBooking extends JFrame {
 		JLabel lblNewLabel_1 = new JLabel("Check-Out Time");
 		lblNewLabel_1.setBounds(428, 220, 100, 13);
 		contentPane.add(lblNewLabel_1);
+		
+		JLabel lblTitle = new JLabel("Hotel Xenios");
+		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 40));
+		lblTitle.setBounds(20, 5, 300, 60);
+		contentPane.add(lblTitle);
+		
+		JLabel lblXenios = new JLabel("Powered by XeniOS");
+		lblXenios.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		lblXenios.setBounds(26, 55, 110, 15);
+		contentPane.add(lblXenios);
 		
 		this.addWindowListener(new java.awt.event.WindowAdapter() {
 		    @Override

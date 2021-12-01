@@ -51,6 +51,7 @@ public class RoomEdit extends JFrame {
 	 * Create the frame.
 	 */
 	public RoomEdit(Connection conn, String username, String roomNumber) {
+		setTitle("Admin | Edit Room");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 500, 500);
 		contentPane = new JPanel();
