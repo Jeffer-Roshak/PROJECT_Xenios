@@ -59,31 +59,31 @@ public class RoomBooking extends JFrame {
 		contentPane.setLayout(null);
 		
 		JLabel lblPrice = new JLabel("Price");
-		lblPrice.setBounds(70, 180, 80, 15);
+		lblPrice.setBounds(100, 115, 80, 15);
 		contentPane.add(lblPrice);
 		
 		JLabel lblRoomNumber = new JLabel("Room Number:");
 		lblRoomNumber.setHorizontalAlignment(SwingConstants.LEFT);
-		lblRoomNumber.setBounds(70, 60, 80, 15);
+		lblRoomNumber.setBounds(100, 70, 80, 15);
 		contentPane.add(lblRoomNumber);
 		
 		JLabel lblLuxuryLevel = new JLabel("Luxury Level:");
-		lblLuxuryLevel.setBounds(70, 90, 80, 15);
+		lblLuxuryLevel.setBounds(100, 160, 80, 15);
 		contentPane.add(lblLuxuryLevel);
 		
 		JLabel lblBalcony = new JLabel("Balcony:");
-		lblBalcony.setBounds(70, 120, 80, 15);
+		lblBalcony.setBounds(100, 205, 80, 15);
 		contentPane.add(lblBalcony);
 		
 		JLabel lblOutlook = new JLabel("Outlook:");
-		lblOutlook.setBounds(70, 150, 80, 15);
+		lblOutlook.setBounds(100, 250, 80, 15);
 		contentPane.add(lblOutlook);
 		
 		DatePickerSettings dateSettings1 = new DatePickerSettings();
 		TimePickerSettings timeSettings1 = new TimePickerSettings();
 		timeSettings1.setAllowKeyboardEditing(false);
 		DateTimePicker checkInTime = new DateTimePicker(dateSettings1, timeSettings1);
-		checkInTime.setBounds(52, 258, 271, 23);
+		checkInTime.setBounds(52, 315, 271, 25);
 		contentPane.add(checkInTime);
 		dateSettings1.setDateRangeLimits(LocalDate.now(), null);
 		dateSettings1.setAllowKeyboardEditing(false);
@@ -93,30 +93,30 @@ public class RoomBooking extends JFrame {
 		TimePickerSettings timeSettings2 = new TimePickerSettings();
 		timeSettings2.setAllowKeyboardEditing(false);
 		DateTimePicker checkOutTime = new DateTimePicker(dateSettings2, timeSettings2);
-		checkOutTime.setBounds(428, 258, 248, 23);
+		checkOutTime.setBounds(400, 315, 248, 25);
 		contentPane.add(checkOutTime);
 		dateSettings2.setDateRangeLimits(LocalDate.now(), null);
 		dateSettings2.setAllowKeyboardEditing(false);
 		
 		JLabel dlbRoomNumber = new JLabel("TestRoomNumber");
 		dlbRoomNumber.setHorizontalAlignment(SwingConstants.LEFT);
-		dlbRoomNumber.setBounds(160, 60, 100, 15);
+		dlbRoomNumber.setBounds(200, 70, 100, 15);
 		contentPane.add(dlbRoomNumber);
 		
 		JLabel dlbLuxuryLevel = new JLabel("TestLuxuryLevel");
-		dlbLuxuryLevel.setBounds(160, 90, 100, 15);
+		dlbLuxuryLevel.setBounds(200, 160, 100, 15);
 		contentPane.add(dlbLuxuryLevel);
 		
 		JLabel dlbBalcony = new JLabel("TestBalcony");
-		dlbBalcony.setBounds(160, 120, 100, 15);
+		dlbBalcony.setBounds(200, 205, 100, 15);
 		contentPane.add(dlbBalcony);
 		
 		JLabel dlbOutlook = new JLabel("TestOutlook");
-		dlbOutlook.setBounds(160, 150, 100, 15);
+		dlbOutlook.setBounds(200, 250, 100, 15);
 		contentPane.add(dlbOutlook);
 		
 		JLabel dlbPrice = new JLabel("TestPrice");
-		dlbPrice.setBounds(160, 180, 100, 15);
+		dlbPrice.setBounds(200, 115, 100, 15);
 		contentPane.add(dlbPrice);
 		
 		//Loading the selected room and details in
@@ -209,7 +209,7 @@ public class RoomBooking extends JFrame {
 				
 			}
 		});
-		btnNewButton.setBounds(295, 307, 85, 21);
+		btnNewButton.setBounds(400, 358, 85, 21);
 		contentPane.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("Cancel");
@@ -227,7 +227,7 @@ public class RoomBooking extends JFrame {
 				
 			}
 		});
-		btnNewButton_1.setBounds(123, 307, 85, 21);
+		btnNewButton_1.setBounds(215, 358, 85, 21);
 		contentPane.add(btnNewButton_1);
 		
 		JButton btnNewButton_2 = new JButton("Back to Main Page");
@@ -243,11 +243,11 @@ public class RoomBooking extends JFrame {
 		contentPane.add(btnNewButton_2);
 		
 		JLabel lblNewLabel = new JLabel("Check-In Time");
-		lblNewLabel.setBounds(52, 220, 85, 13);
+		lblNewLabel.setBounds(50, 295, 85, 13);
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Check-Out Time");
-		lblNewLabel_1.setBounds(428, 220, 100, 13);
+		lblNewLabel_1.setBounds(400, 295, 100, 13);
 		contentPane.add(lblNewLabel_1);
 		
 		JLabel lblTitle = new JLabel("Hotel Xenios");
@@ -257,7 +257,7 @@ public class RoomBooking extends JFrame {
 		
 		JLabel lblXenios = new JLabel("Powered by XeniOS");
 		lblXenios.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		lblXenios.setBounds(26, 55, 110, 15);
+		lblXenios.setBounds(22, 50, 110, 15);
 		contentPane.add(lblXenios);
 		
 		this.addWindowListener(new java.awt.event.WindowAdapter() {
