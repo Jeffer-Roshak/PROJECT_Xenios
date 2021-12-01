@@ -94,43 +94,44 @@ public class RoomEdit extends JFrame {
 		contentPane.add(price);
 		
 		JComboBox luxury_cb = new JComboBox();
-		luxury_cb.setModel(new DefaultComboBoxModel(new String[] {"Single", "Double", "Suite"}));
+		luxury_cb.setModel(new DefaultComboBoxModel(new String[] {"Single", "Double", "Suite"}));//Values in combo box
 		luxury_cb.setEditable(true);
 		luxury_cb.setBounds(230, 217, 86, 21);
 		contentPane.add(luxury_cb);
 		
 		JComboBox balcony_cb = new JComboBox();
-		balcony_cb.setModel(new DefaultComboBoxModel(new String[] {"Y", "N"}));
+		balcony_cb.setModel(new DefaultComboBoxModel(new String[] {"Y", "N"}));//Values in combo box
 		balcony_cb.setBounds(230, 262, 86, 21);
 		contentPane.add(balcony_cb);
 		
 		JComboBox outlook_cb = new JComboBox();
-		outlook_cb.setModel(new DefaultComboBoxModel(new String[] {"Beach", "Garden", "Pool"}));
+		outlook_cb.setModel(new DefaultComboBoxModel(new String[] {"Beach", "Garden", "Pool"}));//Values in combo box
 		outlook_cb.setEditable(true);
 		outlook_cb.setBounds(230, 307, 86, 21);
 		contentPane.add(outlook_cb);
 		
 		try {
 			myStatement = conn.createStatement();
-			query = "SELECT * FROM Rooms_v1 WHERE Room_number="+roomNumber;
+			query = "SELECT * FROM Rooms_v1 WHERE Room_number="+roomNumber;//Get room with passed ID
 			myResult = myStatement.executeQuery(query);
 			myResult.next();
 			price.setText(Float.toString(myResult.getFloat(2)));
 			luxury_cb.setSelectedItem(myResult.getString(3));
 			balcony_cb.setSelectedItem(myResult.getString(4));
-			outlook_cb.setSelectedItem(myResult.getString(5));
+			outlook_cb.setSelectedItem(myResult.getString(5));//show original room values
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 		
 		JButton add = new JButton("Submit");
 		add.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) {//Check if no fields are empty
 				if(price.getText().equals("")||luxury_cb.getSelectedItem().equals("")||outlook_cb.getSelectedItem().equals("")) {
 					JOptionPane.showMessageDialog(null, "Ensure all fields are filled", "Edit Room: Fields Empty", JOptionPane.INFORMATION_MESSAGE);
 					System.out.println("Ensure all fields are filled!");
 				}
 				else {
+					//Update room with given values if valid
 					//Perform field checks here
 					boolean incorrect=false;
 					String message="Please fix the following issue(s):\n";
@@ -173,6 +174,7 @@ public class RoomEdit extends JFrame {
 		JButton logOut = new JButton("Log Out");
 		logOut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//close and open new login window
 				close();
 				Login frame;
 				try {
@@ -191,6 +193,7 @@ public class RoomEdit extends JFrame {
 		JButton btnNewButton = new JButton("Back To Main");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//Return to main screen
 				close();
 		        Admin frame = new Admin(conn, username);
 		        frame.setVisible(true);
