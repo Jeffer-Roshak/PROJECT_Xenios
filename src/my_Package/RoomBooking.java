@@ -140,6 +140,7 @@ public class RoomBooking extends JFrame {
 				try {
 					query = "DELETE FROM Bookings_v1 WHERE booking_id="+booking_id;
 					myResult = myStatement.executeQuery(query);
+					myStatement.close();
 					close();
 					Login frame = new Login();
 					frame.setVisible(true);
@@ -218,6 +219,7 @@ public class RoomBooking extends JFrame {
 				try {
 					query="DELETE FROM Bookings_v1 WHERE booking_id="+booking_id;
 					myResult = myStatement.executeQuery(query);
+					myStatement.close();
 					close();
 			        Customer frame = new Customer(conn, username);
 			        frame.setVisible(true);
@@ -267,13 +269,13 @@ public class RoomBooking extends JFrame {
 					query="DELETE FROM Bookings_v1 WHERE booking_id="+booking_id;
 					myResult = myStatement.executeQuery(query);
 					System.out.println("Test");
+					myStatement.close();
 					close();
 			        Customer frame = new Customer(conn, username);
 			        frame.setVisible(true);
 				}catch (Exception ex) {
 					ex.printStackTrace();
 				}
-		    	
 		    }
 		});
 		

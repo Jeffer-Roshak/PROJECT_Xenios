@@ -21,6 +21,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.event.ActionListener;
+import java.awt.Font;
+import java.awt.Color;
 
 public class Customer extends JFrame {
 
@@ -32,6 +34,8 @@ public class Customer extends JFrame {
 	Statement myStatement = null;
 	String query;
 	ResultSet myResult;
+	private JLabel lblTitle;
+	private JLabel lblXenios;
 
 	/**
 	 * Launch the application.
@@ -53,15 +57,17 @@ public class Customer extends JFrame {
 	 * Create the frame.
 	 */
 	public Customer(Connection conn, String username) {
+		setTitle("Customer | Home Page");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 635, 405);
+		setBounds(100, 100, 600, 500);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(248, 248, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(64, 53, 469, 207);
+		scrollPane.setBounds(50, 110, 480, 292);
 		contentPane.add(scrollPane);
 		
 		String[] columns={
@@ -145,6 +151,7 @@ public class Customer extends JFrame {
 		scrollPane.setViewportView(table);
 		
 		btnNewButton = new JButton("My Bookings");
+		btnNewButton.setBounds(230, 420, 135, 21);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				close();
@@ -152,10 +159,10 @@ public class Customer extends JFrame {
 		        frame.setVisible(true);
 			}
 		});
-		btnNewButton.setBounds(229, 270, 135, 21);
 		contentPane.add(btnNewButton);
 		
 		logoutButton = new JButton("Log Out");
+		logoutButton.setBounds(509, 10, 67, 21);
 		logoutButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				close();
@@ -169,12 +176,22 @@ public class Customer extends JFrame {
 				}
 			}
 		});
-		logoutButton.setBounds(10, 10, 85, 21);
 		contentPane.add(logoutButton);
 		
 		lblUsername = new JLabel("Logged in as "+username);
-		lblUsername.setBounds(469, 334, 113, 13);
+		lblUsername.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblUsername.setBounds(21, 70, 250, 20);
 		contentPane.add(lblUsername);
+		
+		lblTitle = new JLabel("Hotel Xenios");
+		lblTitle.setBounds(20, 5, 300, 60);
+		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 40));
+		contentPane.add(lblTitle);
+		
+		lblXenios = new JLabel("Powered by XeniOS");
+		lblXenios.setBounds(22, 50, 110, 15);
+		lblXenios.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		contentPane.add(lblXenios);
 	}
 	
 	public void close() {
